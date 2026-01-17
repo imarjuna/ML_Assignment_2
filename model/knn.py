@@ -1,0 +1,9 @@
+from sklearn.neighbors import KNeighborsClassifier
+
+def train_knn(X_train, y_train):
+    model = KNeighborsClassifier(
+        n_neighbors=5,
+        metric="minkowski"
+    )
+    model.fit(X_train, y_train)
+    return model
