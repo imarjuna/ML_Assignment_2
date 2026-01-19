@@ -13,8 +13,7 @@ from sklearn.metrics import (
     f1_score,
     roc_auc_score,
     matthews_corrcoef,
-    confusion_matrix,
-    classification_report
+    confusion_matrix
 )
 
 # Import training functions
@@ -60,6 +59,24 @@ uploaded_file = st.sidebar.file_uploader(
     type=["csv"]
 )
 
+# Provide a sample test dataset for users to download or use directly
+sample_path = "data/test_set_dry_bean_dataset.csv"
+try:
+    with open(sample_path, "rb") as f:
+        sample_bytes = f.read()
+    st.sidebar.download_button(
+        label="Download sample test dataset",
+        data=sample_bytes,
+        file_name="test_set_dry_bean_dataset.csv",
+        mime="text/csv"
+    )
+
+    use_sample = st.sidebar.checkbox("Use sample dataset for analysis")
+    if use_sample and uploaded_file is None:
+        uploaded_file = sample_path
+except FileNotFoundError:
+    # If sample file is not present, show a small note but don't break the app
+    st.sidebar.write("Sample dataset not available")
 # ---------------- METRIC FUNCTION ----------------
 def evaluate_model(y_true, y_pred, y_prob):
     return {
